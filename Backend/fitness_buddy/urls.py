@@ -41,8 +41,6 @@ urlpatterns = [
     path('accounts/',include('accounts.urls')),
     path('center/', include('center.urls')),
     path('social/', include('social.urls')),
-
-    path('users/', UserAPIView.as_view())
 ]
 urlpatterns += router.urls
 

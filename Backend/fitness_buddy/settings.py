@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
-    "DATETIME_FORMAT": "%b %d %Y %H:%M:%S",
+    # "DATETIME_FORMAT": "%b %d %Y %H:%M:%S",
     'DEFAULT_THROTTLE_RATES': {
         'anon': '10000/day',
         'user': '100000/day'
