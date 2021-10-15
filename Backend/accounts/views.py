@@ -6,11 +6,15 @@ from django.contrib.gis.geos import Point
 from django.db.models import F, IntegerField
 from django.db.models.functions import Least
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 from rest_framework.viewsets import generics, ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from rest_framework import status
 
 from .serializers import UserListSerializer, UserDetailSerializer
 from .models import User
+from social.models import Follower
 
 
 class UserAPIView(ModelViewSet):
@@ -39,6 +43,28 @@ class UserAPIView(ModelViewSet):
         queryset = queryset.exclude(id=user.id)
         return queryset
 
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated, ], name="Nearby Groups")
+    def groups_nearby(self, request, *args, **kwargs):
+        # longitude = request.data['long']
+        # latitude = request.data['lat']
+        rooms = Room.objects.all()[:20]
+        serializer = RoomListSerializer(rooms, many=True, context={"request": request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated, ], name="Follow User")
+    def follow(self, request, *args, **kwargs):
+        user_id = request.data["user"]
+        user = get_object_or_404(User, id=user_id)
+        follow_qs = Follower.objects.get_or_create(user=user, follower=request.user)
+        return Response({"success": "User Followed"}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated, ], name="Unfollow User")
+    def unfollow(self, request, *args, **kwargs):
+        user_id = request.data["user"]
+        user = get_object_or_404(User, id=user_id)
+        follow_qs = get_object_or_404(Follower, user=user, follower=request.user)
+        follow_qs.delete()
+        return Response({"success": "User Un-Followed"}, status=status.HTTP_200_OK)
 
     #     current_user_location = Point(
     #         float(self.kwargs.get('current_longitude')),

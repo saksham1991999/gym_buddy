@@ -6,6 +6,7 @@ from .models import User
 
 class UserAdmin(LeafletGeoAdmin):
     list_display = (
+        'id',
         'username',
         'last_location',
         'email',

@@ -72,7 +72,7 @@ class TokenSerializer(serializers.ModelSerializer):
         return obj.user.last_name
 
 
-class UserListSerializer(serializers.ModelSerializer):
+class UserDistanceSerializer(serializers.ModelSerializer):
     distance = serializers.SerializerMethodField(
     )
 
@@ -94,6 +94,22 @@ class UserListSerializer(serializers.ModelSerializer):
     def get_distance(self, obj):
         print(obj.distance)
         return str(obj.distance)
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            "profile_pic",
+            "gender",
+            "dob",
+            "city",
+            "type",
+            "active",
+        )
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
