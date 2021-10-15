@@ -92,8 +92,10 @@ class UserDistanceSerializer(serializers.ModelSerializer):
         )
 
     def get_distance(self, obj):
-        print(obj.distance)
-        return str(obj.distance)
+        if hasattr(obj, 'distance'):
+            return str(obj.distance)
+        else:
+            return None
 
 
 class UserListSerializer(serializers.ModelSerializer):

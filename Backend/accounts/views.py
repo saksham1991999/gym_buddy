@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework import status
 
-from .serializers import UserListSerializer, UserDetailSerializer
+from .serializers import UserListSerializer, UserDetailSerializer, UserDistanceSerializer
 from .models import User
 from social.models import Follower
 
@@ -24,12 +24,17 @@ class UserAPIView(ModelViewSet):
     def get_serializer(self, *args, **kwargs):
         kwargs['context'] = self.get_serializer_context()
         if self.action == 'list':
-            return UserListSerializer(*args, **kwargs)
+            return UserDistanceSerializer(*args, **kwargs)
         else:
             return UserDetailSerializer(*args, **kwargs)
 
     def get_queryset(self):
         user = self.request.user
+        queryset = User.objects.exclude(id=user.id)
+
+        type = self.request.query_params.get("type", None)
+        if type:
+            queryset = queryset.filter(type=type)
 
         latitude = self.request.query_params.get("latitude", None)
         longitude = self.request.query_params.get("longitude", None)
@@ -37,10 +42,9 @@ class UserAPIView(ModelViewSet):
             ref_location = GEOSGeometry('SRID=4326;POINT(' + str(longitude) + ' ' + str(latitude) + ')')
             user.last_location = ref_location
             user.save()
-            queryset = User.objects.all().annotate(distance=Distance("last_location", ref_location)).order_by('distance')
-        else:
-            queryset = User.objects.filter(city=user.city)
-        queryset = queryset.exclude(id=user.id)
+            queryset = queryset.annotate(distance=Distance("last_location", ref_location)).order_by('distance')
+        elif user.last_location:
+            queryset = queryset.annotate(distance=Distance("last_location", user.last_location)).order_by('distance')
         return queryset
 
     @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated, ], name="Nearby Groups")
