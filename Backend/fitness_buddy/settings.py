@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     "nested_admin",
     'drf_yasg',
+    'channels',
     'leaflet',
     'allauth.socialaccount',
 
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'core',
     'center',
     'social',
+    'chat',
 ]
 
 MIDDLEWARE = [
