@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from . import views
@@ -6,5 +6,7 @@ from . import views
 app_name = 'center'
 
 router = DefaultRouter()
-# router.register('posts', views.PostViewSet, basename='posts')
-urlpatterns = router.urls
+router.register('centers', views.CenterAPIView, basename='centers')
+urlpatterns = [
+    path("", include(router.urls)),
+]

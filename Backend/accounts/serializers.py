@@ -82,6 +82,8 @@ class UserDistanceSerializer(serializers.ModelSerializer):
     distance = serializers.SerializerMethodField(
     )
     user_interests = serializers.SerializerMethodField(read_only=True)
+    latitude = serializers.SerializerMethodField(read_only=True)
+    longitude = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -97,6 +99,8 @@ class UserDistanceSerializer(serializers.ModelSerializer):
             "active",
             "distance",
             "user_interests",
+            "latitude",
+            "longitude",
         )
 
     def get_distance(self, obj):
@@ -109,6 +113,18 @@ class UserDistanceSerializer(serializers.ModelSerializer):
         queryset = obj.interests
         serializer = UserInterestSerializer(queryset, many=True)
         return serializer.data
+
+    @staticmethod
+    def get_latitude(obj):
+        if obj.last_location:
+            return obj.last_location.x
+        return None
+
+    @staticmethod
+    def get_longitude(obj):
+        if obj.last_location:
+            return obj.last_location.y
+        return None
 
 
 class UserListSerializer(serializers.ModelSerializer):

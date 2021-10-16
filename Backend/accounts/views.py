@@ -47,14 +47,6 @@ class UserAPIView(ModelViewSet):
             queryset = queryset.annotate(distance=Distance("last_location", user.last_location)).order_by('distance')
         return queryset
 
-    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated, ], name="Nearby Groups")
-    def groups_nearby(self, request, *args, **kwargs):
-        # longitude = request.data['long']
-        # latitude = request.data['lat']
-        rooms = Room.objects.all()[:20]
-        serializer = RoomListSerializer(rooms, many=True, context={"request": request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated, ], name="Follow User")
     def follow(self, request, *args, **kwargs):
         user_id = request.data["user"]
