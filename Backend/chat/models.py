@@ -1,4 +1,23 @@
+import uuid
+
 from django.db import models
+
+
+class Chat(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    author = models.ForeignKey("accounts.User", related_name='author_room', on_delete=models.CASCADE)
+    friend = models.ForeignKey("accounts.User", related_name='friend_room', on_delete=models.CASCADE)
+
+
+class Message(models.Model):
+    author = models.ForeignKey("accounts.User", related_name='author_messages', on_delete=models.CASCADE)
+    friend = models.ForeignKey("accounts.User", related_name='friend_messages', on_delete=models.CASCADE)
+    chat = models.ForeignKey("chat.Chat", related_name='messages', on_delete=models.DO_NOTHING)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message + " " + str(self.timestamp)
 
 
 class Room(models.Model):

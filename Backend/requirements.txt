@@ -22,3 +22,5 @@ django-cloudinary-storage
 numpy
 django-map-widgets
 django-leaflet
+channels_redis
+channels

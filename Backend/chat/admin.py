@@ -1,8 +1,21 @@
 
 from django.contrib import admin
 
-from .models import ReportGroup, Room, RoomUser, Message
+from .models import ReportGroup, Room, RoomUser, Message, Chat
 import nested_admin
+
+
+class ChatAdmin(nested_admin.NestedModelAdmin):
+    list_display = [
+        'id',
+        'author',
+        'friend',
+    ]
+    list_display_links = [
+        'id',
+        'author',
+        'friend',
+    ]
 
 
 class RoomUserInline(nested_admin.NestedTabularInline):
@@ -64,6 +77,7 @@ class RoomMessageAdmin(nested_admin.NestedModelAdmin):
                     ]
 
 
+admin.site.register(Chat, ChatAdmin)
 admin.site.register(Room, RoomAdmin)
 admin.site.register(RoomUser)
 admin.site.register(Message, RoomMessageAdmin)
