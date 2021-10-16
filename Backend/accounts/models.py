@@ -14,6 +14,7 @@ class UserInterest(models.Model):
     def __str__(self):
         return self.title
 
+
 class User(AbstractUser):
     profile_pic = models.ImageField(upload_to="user-profile-pics", blank=True, null=True)
 

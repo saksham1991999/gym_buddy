@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "nested_admin",
     'drf_yasg',
     'leaflet',
+    'allauth.socialaccount',
 
     'accounts',
     'core',
