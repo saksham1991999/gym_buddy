@@ -1,7 +1,7 @@
 from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
 
-from .models import User
+from .models import User, UserInterest
 
 
 class UserAdmin(LeafletGeoAdmin):
@@ -16,3 +16,4 @@ class UserAdmin(LeafletGeoAdmin):
 
 admin.site.site_header = 'Fitness Buddy'
 admin.site.register(User, UserAdmin)
+admin.site.register(UserInterest)

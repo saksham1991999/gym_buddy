@@ -4,7 +4,7 @@ from rest_auth.registration.serializers import RegisterSerializer
 from rest_framework.authtoken.models import Token
 import random
 
-from .models import User
+from .models import User, UserInterest
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -72,9 +72,16 @@ class TokenSerializer(serializers.ModelSerializer):
         return obj.user.last_name
 
 
+class UserInterestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInterest
+        fields = ("id", "title", "image", "description")
+
+
 class UserDistanceSerializer(serializers.ModelSerializer):
     distance = serializers.SerializerMethodField(
     )
+    user_interests = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -89,6 +96,7 @@ class UserDistanceSerializer(serializers.ModelSerializer):
             "type",
             "active",
             "distance",
+            "user_interests",
         )
 
     def get_distance(self, obj):
@@ -97,8 +105,15 @@ class UserDistanceSerializer(serializers.ModelSerializer):
         else:
             return None
 
+    def get_user_interests(self, obj):
+        queryset = obj.interests
+        serializer = UserInterestSerializer(queryset, many=True)
+        return serializer.data
+
 
 class UserListSerializer(serializers.ModelSerializer):
+    user_interests = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = User
         fields = (
@@ -113,11 +128,13 @@ class UserListSerializer(serializers.ModelSerializer):
             "active",
         )
 
+    def get_user_interests(self, obj):
+        serializer = UserInterestSerializer(obj.interests.all())
+        return serializer.data
+
 
 class UserDetailSerializer(serializers.ModelSerializer):
-    distance = serializers.FloatField(
-        read_only=True
-    )
+    user_interests = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -134,5 +151,9 @@ class UserDetailSerializer(serializers.ModelSerializer):
             "preferred_radius",
             "type",
             "active",
-            "distance",
+            "user_interests",
         )
+
+    def get_user_interests(self, obj):
+        serializer = UserInterestSerializer(obj.interests.all())
+        return serializer.data
