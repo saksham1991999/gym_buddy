@@ -112,7 +112,7 @@ class _ExplorePageState extends State<ExplorePage> {
                               Icons.arrow_circle_up,
                             ),
                             SizedBox(width: 20),
-                            Text("Find Your Nearby Gym Buddy",
+                            Text("View list of Buddies around you",
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 15)),
                           ],
@@ -136,7 +136,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                     BorderRadius.all(Radius.circular(20)),
                                 color: Colors.blue.shade200.withOpacity(0.7),
                               ),
-                              child: Text("Buddy"),
+                              child: Text("Buddies"),
                             ),
                             SizedBox(width: 15),
                             Container(
@@ -147,7 +147,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20)),
                                   color: Colors.black.withOpacity(0.3)),
-                              child: Text("Trainer"),
+                              child: Text("Centers"),
                             ),
                             SizedBox(width: 15),
                             Container(

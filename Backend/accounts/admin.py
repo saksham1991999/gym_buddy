@@ -8,6 +8,7 @@ class UserAdmin(LeafletGeoAdmin):
     list_display = (
         'id',
         'username',
+        'first_name',
         'last_location',
         'email',
         'city',
