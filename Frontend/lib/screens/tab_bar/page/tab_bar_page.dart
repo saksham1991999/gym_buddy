@@ -10,6 +10,7 @@ import 'package:fitness_flutter/screens/reels/page/home_page.dart';
 import 'package:fitness_flutter/screens/workouts/page/workouts_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fitness_flutter/screens/gym_buddy/gym_buddy.dart';
 
 class TabBarPage extends StatelessWidget {
   const TabBarPage({Key? key}) : super(key: key);
@@ -103,7 +104,7 @@ class TabBarPage extends StatelessWidget {
     final children = [
       HomeBody(),
       NotificationMessages(),
-      WorkoutsPage(),
+      ExplorePage(),
       HomePage(),
       SettingsScreen(),
 

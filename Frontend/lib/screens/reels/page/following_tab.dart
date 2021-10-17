@@ -158,7 +158,7 @@ class _VideoPageState extends State<VideoPage> with RouteAware {
             videoPlayerController: _controller,
             autoPlay: true,
             looping: true,
-            fullScreenByDefault: true);
+            fullScreenByDefault: false);
       });
     }
     initialized = false;
@@ -284,7 +284,7 @@ class _VideoPageState extends State<VideoPage> with RouteAware {
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                    text: '@emiliwilliamson\n',
+                    text: '@saksham1991999\n',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,

@@ -75,7 +75,10 @@ dependencies:
   # Permission handler
   permission_handler: ^8.1.4+2
   chewie: ^1.1.0
-
+  google_maps_flutter: ^2.0.11
+  location: ^4.3.0
+  http: 
+  
   carousel_slider: ^4.0.0-nullsafety.0
 
 dev_dependencies:

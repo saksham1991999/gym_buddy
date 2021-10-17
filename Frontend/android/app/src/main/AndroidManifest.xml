@@ -4,6 +4,8 @@
    <application
         android:label="fitness_flutter"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDoc4emFcd-TsH2ercuuMzmnn_6_y1M8fk"/>
         <activity
             android:name=".MainActivity"
             android:requestLegacyExternalStorage="true"
