@@ -10,7 +10,7 @@ class PostSerializer(serializers.ModelSerializer):
     )
     likes = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
-    user_detail = serializers.SerializerMethodField(read_only=True)
+    # user_detail = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = models.Post

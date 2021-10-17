@@ -1,9 +1,10 @@
 import os, django
-
+import random
 from faker import Faker
 
 from accounts.models import User
 from datetime import datetime
+from django.contrib.gis.geos import GEOSGeometry
 
 fake = Faker()
 Faker.seed(999)
@@ -27,27 +28,6 @@ def add_superuser():
     password = fake.password(length=12)
     user = User.objects.create_superuser(username=username, first_name=first_name, last_name=last_name, password="admin",
                                          profile_pic=f'users/({fake.random_int(min=1, max=200)}).png',)
-    add_addresses(user)
-
-
-def add_addresses(user):
-    # user = User.objects.create_user(username='8888888888', password="admin")
-    # user = User.objects.create_user(username='7777777777', password="admin")
-    # user = User.objects.create_user(username='6666666666', password="admin")
-    Address.objects.bulk_create(
-        [
-            Address(
-                user=user,
-                full_name=fake.name(),
-                street_address_1=fake.building_number(),
-                street_address_2=fake.street_name(),
-                city=fake.city(),
-                state=fake.street_suffix(),
-                postal_code=fake.postcode(),
-                phone=fake.random_number(digits=10, fix_len=True))
-            for _ in range(fake.random_int(min=2, max=10))
-        ]
-    )
 
 
 def add_user():
@@ -55,6 +35,8 @@ def add_user():
     first_name = fake.first_name()
     last_name = fake.last_name()
     password = fake.password(length=12)
+    longitude = random.uniform(76, 78)
+    latitude = random.uniform(28, 29)
     user = User.objects.create_user(
         username=username,
         email=fake.email(),
@@ -64,6 +46,7 @@ def add_user():
         gender=fake.random_element(elements = ("M", "F")),
         profile_pic=f'users/({fake.random_int(min=1, max=200)}).png',
         city="Delhi",
-        dob=fake.date_of_birth(minimum_age=16)
+        dob=fake.date_of_birth(minimum_age=16),
+        last_location=GEOSGeometry('SRID=4326;POINT(' + str(longitude) + ' ' + str(latitude) + ')')
     )
     user.save()

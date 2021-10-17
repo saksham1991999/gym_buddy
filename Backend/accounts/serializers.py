@@ -142,6 +142,7 @@ class UserListSerializer(serializers.ModelSerializer):
             "city",
             "type",
             "active",
+            "user_interests",
         )
 
     def get_user_interests(self, obj):

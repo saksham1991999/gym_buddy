@@ -27,7 +27,7 @@ class Room(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='rooms')
     created_at = models.DateTimeField(auto_now_add=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
-    users = models.ManyToManyField("accounts.User", through="room.RoomUser")
+    users = models.ManyToManyField("accounts.User", through="chat.RoomUser")
     private = models.BooleanField(default=False)
 
     def __str__(self):
@@ -42,7 +42,7 @@ user_role_choices = (
 
 class RoomUser(models.Model):
     user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
-    room = models.ForeignKey("room.Room", on_delete=models.CASCADE, related_name='room_users')
+    room = models.ForeignKey("chat.Room", on_delete=models.CASCADE, related_name='room_users')
     role = models.CharField(max_length=2, choices=user_role_choices)
     viewed_at = models.DateTimeField(auto_now=True)
     joined_at = models.DateTimeField(auto_now_add=True)
@@ -56,7 +56,7 @@ class RoomUser(models.Model):
 
 
 class Message(models.Model):
-    room = models.ForeignKey('room.Room', on_delete=models.CASCADE)
+    room = models.ForeignKey('chat.Room', on_delete=models.CASCADE)
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     file_field = models.FileField(upload_to='messages', blank=True, null=True)
     message_text = models.CharField(max_length=1000, blank=True, null=True)
@@ -68,5 +68,5 @@ class Message(models.Model):
 
 class ReportGroup(models.Model):
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
-    room = models.ForeignKey('room.Room', on_delete = models.CASCADE)
+    room = models.ForeignKey('chat.Room', on_delete = models.CASCADE)
     date_time = models.DateTimeField(auto_now=True)
