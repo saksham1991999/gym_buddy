@@ -17,7 +17,7 @@ class CenterDistanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Center
-        fields = ('id', 'type', 'name', 'location', 'city', "latitude", "longitude")
+        fields = ('id', 'type', 'name', 'location', 'city', 'images', "latitude", "longitude")
 
     @staticmethod
     def get_images(obj):
@@ -27,14 +27,14 @@ class CenterDistanceSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_latitude(obj):
-        if obj.last_location:
-            return obj.last_location.x
+        if obj.point_location:
+            return obj.point_location.x
         return None
 
     @staticmethod
     def get_longitude(obj):
-        if obj.last_location:
-            return obj.last_location.y
+        if obj.point_location:
+            return obj.point_location.y
         return None
 
 
@@ -43,7 +43,7 @@ class CenterListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Center
-        fields = ('id', 'type', 'name', 'location', 'city')
+        fields = ('id', 'type', 'name', 'location', 'city', 'images')
 
     def get_images(self, obj):
         images = CenterImages.objects.filter(center=obj)
